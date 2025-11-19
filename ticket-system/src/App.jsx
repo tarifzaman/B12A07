@@ -1,45 +1,84 @@
-// src/App.jsx
-import React, { useState } from "react";
-import "./index.css";
-import Navbar from "./components/Navbar";
+import { useState } from "react";
 import Banner from "./components/Banner";
-import TicketList from "./components/TicketList";
+import Navbar from "./components/Navbar";
 import TaskStatus from "./components/TaskStatus";
-import Footer from "./components/Footer";
-import { tickets } from "./data/ticket";
+import TicketList from "./components/TicketList";
+import { tickets as initialTickets } from "./data/tickets";
+import "./index.css";
 
-function App() {
-  const [inProgress, setInProgress] = useState([]);
-  const [resolved, setResolved] = useState([]);
+export default function App() {
+  const [tickets, setTickets] = useState(initialTickets);
+  const [tasks, setTasks] = useState([]); // In-Progress List
+  const [resolvedList, setResolvedList] = useState([]); // Resolved List (Sidebar er jonno)
 
-  const addToProgress = (ticket) => {
-    if (!inProgress.find(t => t.id === ticket.id) && !resolved.find(t => t.id === ticket.id)) {
-      setInProgress(prev => [...prev, ticket]);
-    }
+  // 1. TICKET CLICK → In-Progress (+1) & Add to Task Bar
+  const handleTicketClick = (id) => {
+    const clickedTicket = tickets.find((t) => t.id === id);
+
+    // Jodi ticket already open na hoy, tahole kichu korbe na
+    if (clickedTicket.status !== "open") return;
+
+    // Update Status in Main List
+    const updatedTickets = tickets.map((t) =>
+      t.id === id ? { ...t, status: "inprogress" } : t
+    );
+
+    setTickets(updatedTickets);
+    setTasks((prev) => [...prev, { ...clickedTicket, status: "inprogress" }]);
   };
 
-  const handleComplete = (ticket) => {
-    // remove from inProgress
-    setInProgress(prev => prev.filter(t => t.id !== ticket.id));
-    // add to resolved
-    setResolved(prev => [...prev, ticket]);
+  // 2. COMPLETE BUTTON CLICK → Resolved (+1) & Add to Resolved List
+  const completeTask = (id) => {
+    // Task khuje ber kora
+    const taskToResolve = tasks.find((t) => t.id === id);
+
+    if (!taskToResolve) return;
+
+    // Main List update (Status -> resolved)
+    const updatedTickets = tickets.map((t) =>
+      t.id === id ? { ...t, status: "resolved" } : t
+    );
+
+    setTickets(updatedTickets);
+
+    // Remove from "In-Progress" Task Bar
+    setTasks((prev) => prev.filter((t) => t.id !== id));
+
+    // Add to "Resolved Task" list in Sidebar
+    setResolvedList((prev) => [
+      ...prev,
+      { ...taskToResolve, status: "resolved" },
+    ]);
   };
+
+  // Banner Counts Calculation
+  const openCount = tickets.filter((t) => t.status === "open").length;
+  const inProgressCount = tickets.filter(
+    (t) => t.status === "inprogress"
+  ).length;
+  const resolvedCount = tickets.filter((t) => t.status === "resolved").length;
 
   return (
-    <div>
-      <div className="app-container">
-        <Navbar />
-        <Banner inProgress={inProgress.length} resolved={resolved.length} />
+    <div className="app-container">
+      <Navbar />
+      {/* Banner e count pass kora */}
+      <Banner
+        open={openCount}
+        inprogress={inProgressCount}
+        resolved={resolvedCount}
+      />
 
-        <div className="main-grid">
-          <TicketList tickets={tickets} onSelect={addToProgress} />
-          <TaskStatus tasks={inProgress} onComplete={handleComplete} />
-        </div>
+      <div className="main-grid">
+        {/* Left Side: Ticket List */}
+        <TicketList tickets={tickets} onTicketClick={handleTicketClick} />
+
+        {/* Right Side: Task Status & Resolved History */}
+        <TaskStatus
+          tasks={tasks}
+          resolvedList={resolvedList}
+          onComplete={completeTask}
+        />
       </div>
-
-      <Footer />
     </div>
   );
 }
-
-export default App;
