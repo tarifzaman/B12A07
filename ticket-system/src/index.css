@@ -174,23 +174,10 @@ body {
   transform: scale(1.05);
 }
 
-/* footer placeholder */
-.footer {
-  margin-top: 28px;
-  padding: 20px;
-  background: #0f1720;
-  color: #fff;
-  border-radius: 6px;
-  text-align: left;
-}
 
 /* responsiveness */
 @media (max-width: 900px) {
   .main-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .ticket-grid {
     grid-template-columns: 1fr;
   }
 }

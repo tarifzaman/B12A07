@@ -1,0 +1,118 @@
+/* --- Global Footer Styles --- */
+.cs-footer {
+    background-color: #000;
+    color: #fff;
+    width: 100%;
+    padding-top: 40px;
+}
+
+/* --- Inner Container (centered content, max-width) --- */
+.footer-content-container {
+    max-width: 1100px;  /* same as app container */
+    margin: 0 auto;      /* center the container */
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 30px;          /* spacing between columns */
+    padding: 0 20px;    /* small side padding for mobile */
+    border-bottom: 1px solid #333;
+    padding-bottom: 40px;
+}
+
+/* --- Intro/Description Section --- */
+.footer-intro {
+    flex: 1 1 300px;    /* flexible but minimum width 300px */
+    max-width: 400px;
+}
+
+.footer-intro h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+.footer-intro p {
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: #ccc;
+}
+
+/* --- Individual Navigation/Social Sections --- */
+.footer-section,
+.footer-social-links {
+    flex: 1 1 150px;
+}
+
+.footer-section h3,
+.footer-social-links h3 {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #fff;
+}
+
+/* --- List Styling --- */
+.footer-section ul,
+.footer-social-links ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-section li,
+.footer-social-links li {
+    margin-bottom: 10px;
+}
+
+.footer-section a,
+.footer-social-links a {
+    text-decoration: none;
+    color: #ccc;
+    font-size: 0.85rem;
+    transition: color 0.2s;
+    display: inline-flex;
+    align-items: center;
+}
+
+.footer-section a:hover,
+.footer-social-links a:hover {
+    color: #fff;
+}
+
+.footer-social-links a span {
+    margin-right: 8px;
+    font-size: 1rem;
+}
+
+/* --- Copyright Bar --- */
+.footer-copyright {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.footer-copyright p {
+    font-size: 0.75rem;
+    color: #ccc;
+    margin: 0;
+}
+
+/* --- Responsive --- */
+@media (max-width: 900px) {
+    .footer-content-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .footer-section,
+    .footer-social-links,
+    .footer-intro {
+        max-width: 100%;
+        text-align: center;
+    }
+
+    .footer-section,
+    .footer-social-links {
+        margin-left: 0;
+    }
+}

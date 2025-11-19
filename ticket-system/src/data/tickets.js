@@ -27,7 +27,7 @@ export const tickets = [
     customer: "Michael Brown",
     priority: "Medium",
     date: "1/17/2024",
-    status: "inprogress"
+    status: "open"
   },
   {
     id: 4,
@@ -57,7 +57,7 @@ export const tickets = [
     customer: "Sophia Taylor",
     priority: "Medium",
     date: "1/20/2024",
-    status: "inprogress"
+    status: "open"
   },
   {
     id: 7,
@@ -87,7 +87,7 @@ export const tickets = [
     customer: "Liam Thomas",
     priority: "Medium",
     date: "1/17/2024",
-    status: "inprogress"
+    status: "open"
   },
   {
     id: 10,
