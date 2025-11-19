@@ -1,44 +1,27 @@
-function Banner(props) {
-    return (
+// src/components/Banner.jsx
+import React from "react";
+
+export default function Banner({ inProgress = 0, resolved = 0 }) {
+  return (
+    <div
+      className="banner-row app-container"
+      style={{ paddingLeft: 0, paddingRight: 0 }}
+    >
       <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          gap: "20px",
-          padding: "30px",
-          marginTop: "20px",
-        }}
+        className="banner-card"
+        style={{ background: "linear-gradient(90deg,#7b61ff,#a67bff)" }}
       >
-        {/* Left Box */}
-        <div
-          style={{
-            flex: 1,
-            padding: "30px",
-            borderRadius: "12px",
-            background: "linear-gradient(90deg, #6A5ACD, #836FFF)",
-            color: "#fff",
-          }}
-        >
-          <h3>In Progress</h3>
-          <h1>{props.inProgress}</h1>
-        </div>
-  
-        {/* Right Box */}
-        <div
-          style={{
-            flex: 1,
-            padding: "30px",
-            borderRadius: "12px",
-            background: "linear-gradient(90deg, #FF7575, #FF9E9E)",
-            color: "#fff",
-          }}
-        >
-          <h3>Resolved</h3>
-          <h1>{props.resolved}</h1>
-        </div>
+        <div className="banner-title">In-Progress</div>
+        <div className="banner-count">{inProgress}</div>
       </div>
-    );
-  }
-  
-  export default Banner;
-  
+
+      <div
+        className="banner-card"
+        style={{ background: "linear-gradient(90deg,#2ecc71,#18a884)" }}
+      >
+        <div className="banner-title">Resolved</div>
+        <div className="banner-count">{resolved}</div>
+      </div>
+    </div>
+  );
+}

@@ -1,26 +1,53 @@
+// src/components/TicketCard.jsx
 import React from "react";
 
-function TicketCard({ ticket, onSelect }) {
-  return (
-    <div
-      onClick={() => onSelect(ticket)}
-      style={{
-        border: "1px solid #eee",
-        padding: "20px",
-        marginBottom: "20px",
-        borderRadius: "10px",
-        cursor: "pointer",
-      }}
-    >
-      <h2>{ticket.title}</h2>
-      <p>{ticket.description}</p>
+export default function TicketCard({ ticket, onSelect }) {
+  const priorityColor = ticket.priority.includes("HIGH")
+    ? "#e74c3c"
+    : ticket.priority.includes("MEDIUM")
+    ? "#f39c12"
+    : "#2ecc71";
 
-      <p><b>Customer:</b> {ticket.customer}</p>
-      <p><b>Priority:</b> {ticket.priority}</p>
-      <p><b>Status:</b> {ticket.status}</p>
-      <p><b>Created At:</b> {ticket.createdAt}</p>
+  return (
+    <div className="ticket-card" onClick={() => onSelect(ticket)}>
+      <div
+        style={{ display: "flex", justifyContent: "space-between", gap: 12 }}
+      >
+        <div style={{ fontWeight: 700, fontSize: 16 }}>{ticket.title}</div>
+        <div style={{ textAlign: "right", minWidth: 64 }}>
+          <div style={{ fontSize: 12, color: "#666" }}>#{ticket.id}</div>
+          <div style={{ marginTop: 6 }}>
+            <span
+              className={`badge ${
+                ticket.status === "Open"
+                  ? "open"
+                  : ticket.status === "In Progress"
+                  ? "inprogress"
+                  : ""
+              }`}
+            >
+              {ticket.status}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div style={{ marginTop: 8, color: "#444", fontSize: 14 }}>
+        {ticket.description}
+      </div>
+
+      <div className="ticket-meta">
+        <div>
+          <div style={{ fontWeight: 700 }}>{ticket.customer}</div>
+          <div style={{ fontSize: 12, color: "#888" }}>{ticket.createdAt}</div>
+        </div>
+
+        <div style={{ textAlign: "right" }}>
+          <div className="priority" style={{ color: priorityColor }}>
+            {ticket.priority}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
-
-export default TicketCard;

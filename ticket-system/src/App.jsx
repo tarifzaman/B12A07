@@ -1,49 +1,44 @@
+// src/App.jsx
 import React, { useState } from "react";
+import "./index.css";
 import Navbar from "./components/Navbar";
 import Banner from "./components/Banner";
-import TicketCard from "./components/TicketCard";
+import TicketList from "./components/TicketList";
 import TaskStatus from "./components/TaskStatus";
+import Footer from "./components/Footer";
 import { tickets } from "./data/ticket";
 
 function App() {
   const [inProgress, setInProgress] = useState([]);
+  const [resolved, setResolved] = useState([]);
 
-  const handleAddToProgress = (ticket) => {
-    // duplicate prevent
-    if (!inProgress.find((t) => t.id === ticket.id)) {
-      setInProgress([...inProgress, ticket]);
+  const addToProgress = (ticket) => {
+    if (!inProgress.find(t => t.id === ticket.id) && !resolved.find(t => t.id === ticket.id)) {
+      setInProgress(prev => [...prev, ticket]);
     }
   };
 
+  const handleComplete = (ticket) => {
+    // remove from inProgress
+    setInProgress(prev => prev.filter(t => t.id !== ticket.id));
+    // add to resolved
+    setResolved(prev => [...prev, ticket]);
+  };
+
   return (
-    <>
-      <Navbar />
-      <Banner inProgress={inProgress.length} resolved={0} />
+    <div>
+      <div className="app-container">
+        <Navbar />
+        <Banner inProgress={inProgress.length} resolved={resolved.length} />
 
-      {/* 2 Column Layout */}
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1.3fr 0.7fr",
-          gap: "20px",
-          padding: "20px 40px",
-        }}
-      >
-        {/* LEFT SIDE — Ticket List */}
-        <div>
-          {tickets.map((ticket) => (
-            <TicketCard
-              key={ticket.id}
-              ticket={ticket}
-              onSelect={handleAddToProgress}
-            />
-          ))}
+        <div className="main-grid">
+          <TicketList tickets={tickets} onSelect={addToProgress} />
+          <TaskStatus tasks={inProgress} onComplete={handleComplete} />
         </div>
-
-        {/* RIGHT SIDE — Task Status Panel */}
-        <TaskStatus tasks={inProgress} />
       </div>
-    </>
+
+      <Footer />
+    </div>
   );
 }
 
